@@ -1,0 +1,21 @@
+{
+  "name": "hexlet/code",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Hexlet\\Code\\": "src/"
+    }
+  },
+  "bin": [
+    "bin/gendiff"
+  ],
+  "authors": [
+    {
+      "name": "Karamysh",
+      "email": "dezenu@ya.ru"
+    }
+  ],
+  "require": {
+    "docopt/docopt": "^1.0"
+  }
+}
