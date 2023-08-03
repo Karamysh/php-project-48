@@ -2,9 +2,9 @@
   "name": "hexlet/code",
   "type": "project",
   "autoload": {
-    "psr-4": {
-      "Hexlet\\Code\\": "src/"
-    }
+    "files": [
+      "src/Differ.php"
+    ]
   },
   "bin": [
     "bin/gendiff"
