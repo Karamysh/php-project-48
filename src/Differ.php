@@ -2,8 +2,6 @@
 
 namespace Differ\Differ;
 
-require_once __DIR__ . "/../vendor/autoload.php";
-
 function genDiff($pathToFile1, $pathToFile2)
 {
     $getDataFromFile = function ($pathToFile) {

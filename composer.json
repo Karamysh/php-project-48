@@ -2,6 +2,10 @@
   "name": "hexlet/code",
   "type": "project",
   "autoload": {
+    "psr-4": {
+      "Php\\Package\\": "src",
+      "Php\\Package\\Tests\\": "tests"
+    },
     "files": [
       "src/Differ.php"
     ]
@@ -17,5 +21,8 @@
   ],
   "require": {
     "docopt/docopt": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5"
   }
 }
