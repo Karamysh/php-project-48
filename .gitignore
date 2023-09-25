@@ -1,2 +1,8 @@
 /vendor/
 /.vscode/
+build/logs/clover.xml
+logs
+*.swo
+*.swp
+*.cache
+build
