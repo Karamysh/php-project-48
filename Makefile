@@ -16,5 +16,5 @@ fix:
 tests:
 	composer exec --verbose phpunit tests
 
-code-coverage:
+test-coverage:
 	composer exec XDEBUG_MODE=coverage --verbose phpunit tests -- --coverage-clover build/logs/clover.xml 

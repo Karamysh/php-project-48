@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1695640706">
-  <project timestamp="1695640706">
+<coverage generated="1695642973">
+  <project timestamp="1695642973">
     <file name="/home/bitvinus/php-project-48/src/Differ.php">
       <line num="10" type="stmt" count="2"/>
       <line num="12" type="stmt" count="2"/>
@@ -30,15 +30,15 @@
       <line num="53" type="stmt" count="2"/>
       <line num="54" type="stmt" count="2"/>
       <line num="55" type="stmt" count="2"/>
-      <metrics loc="56" ncloc="56" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="28" coveredstatements="27" elements="28" coveredelements="27"/>
+      <metrics loc="57" ncloc="57" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="28" coveredstatements="27" elements="28" coveredelements="27"/>
     </file>
     <file name="/home/bitvinus/php-project-48/src/Parsers.php">
       <line num="9" type="stmt" count="1"/>
       <line num="10" type="stmt" count="1"/>
       <line num="11" type="stmt" count="1"/>
       <line num="16" type="stmt" count="1"/>
-      <metrics loc="17" ncloc="17" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="4" coveredelements="4"/>
+      <metrics loc="18" ncloc="18" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="4" coveredelements="4"/>
     </file>
-    <metrics files="2" loc="73" ncloc="73" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="32" coveredstatements="31" elements="32" coveredelements="31"/>
+    <metrics files="2" loc="75" ncloc="75" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="32" coveredstatements="31" elements="32" coveredelements="31"/>
   </project>
 </coverage>
