@@ -2,7 +2,7 @@
 
 [![Actions Status](https://github.com/Karamysh/php-project-48/workflows/hexlet-check/badge.svg)](https://github.com/Karamysh/php-project-48/actions)
 
-[![Actions Status](https://github.com/Karamysh/php-project-48/workflows/php/badge.svg)](https://github.com/Karamysh/php-project-48/actions)
+[![PHP CI](https://github.com/Karamysh/php-project-48/actions/workflows/php.yml/badge.svg)](https://github.com/Karamysh/php-project-48/actions/workflows/php.yml)
 
 ### Codeclimate:
 
