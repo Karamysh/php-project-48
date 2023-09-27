@@ -2,38 +2,17 @@
 
 namespace Differ\Differ;
 
-use function Differ\Parsers\parseJsonFile;
-use function Differ\Parsers\parseYamlFile;
-use function Differ\DiffFinder\createDiffTree;
-use function Differ\Stylish\makeOutputTree;
+use function Differ\Parsers\getParsedData;
+use function Differ\DiffGenerator\generateDiffTree;
+use function Differ\Formatters\formatDiffTree;
 
-function getParsedData($pathToFile)
+function genDiff(string $filePath1, string $filePath2, string $formatName = 'stylish')
 {
-    $format = pathinfo($pathToFile, PATHINFO_EXTENSION);
-    switch ($format) {
-        case 'json':
-            return parseJsonFile($pathToFile);
-        case 'yaml' || 'yml':
-            return parseYamlFile($pathToFile);
-        default:
-            return false;
-    }
-}
+    $data1 = getParsedData($filePath1);
+    $data2 = getParsedData($filePath2);
 
-function convertToStrIfBool($value)
-{
-    if (is_bool($value)) {
-        return $value ? "true" : "false";
-    }
-    return $value;
-}
+    $tree = generateDiffTree($data1, $data2);
 
-function genDiff($pathToFile1, $pathToFile2)
-{
-    $data1 = getParsedData($pathToFile1);
-    $data2 = getParsedData($pathToFile2);
-
-    $tree = createDiffTree($data1, $data2);
-    $stylisedTree = makeOutputTree($tree);
-    return $stylisedTree;
+    $stylishedTree = formatDiffTree($tree, $formatName);
+    return $stylishedTree;
 }

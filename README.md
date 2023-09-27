@@ -12,8 +12,29 @@
 
 ### Asciinema
 
+Asciinema with json file of flat structure:
+[![asciicast](https://asciinema.org/a/610669.svg)](https://asciinema.org/a/610669)
+
+Asciinema with yaml file of flat structure:
+[![asciicast](https://asciinema.org/a/610680.svg)](https://asciinema.org/a/610680)
+
+Asciinema with file of nested structure (stylish format):
+[![asciicast](https://asciinema.org/a/610681.svg)](https://asciinema.org/a/610681)
+
+Asciinema with file of nested structure (plain format):
+[![asciicast](https://asciinema.org/a/610683.svg)](https://asciinema.org/a/610683)
+
+Asciinema with file of nested structure (json format):
+[![asciicast](https://asciinema.org/a/610700.svg)](https://asciinema.org/a/610700)
+
+<details>
+
+  <summary> Old Asciinemas:</summary>
+
 [![asciicast](https://asciinema.org/a/610232.svg)](https://asciinema.org/a/610232)
 
 [![asciicast](https://asciinema.org/a/610234.svg)](https://asciinema.org/a/610234)
 
 [![asciicast](https://asciinema.org/a/610353.svg)](https://asciinema.org/a/610353)
+
+</details>
