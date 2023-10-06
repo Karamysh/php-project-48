@@ -2,26 +2,34 @@
 
 namespace Differ\Formatters\Plain;
 
-function createPlainOutput(array $diffTree)
+function createOutput(array $diffTree)
 {
     $rootChildren = $diffTree['children'];
-    $plainTree = collect($rootChildren)
+    return collect($rootChildren)
         ->map(fn($diffNode) => iteration($diffNode, ''))
         ->flatten()
         ->filter()
         ->implode("\n");
-    return $plainTree;
 }
 
 function formatValue(mixed $value)
 {
     if (is_bool($value)) {
         return $value ? "true" : "false";
-    } elseif (is_null($value)) {
+    }
+
+    if (is_null($value)) {
         return "null";
-    } elseif (is_array($value)) {
+    }
+
+    if (is_array($value)) {
         return '[complex value]';
     }
+
+    if (is_int($value)) {
+        return "{$value}";
+    }
+
     return "'{$value}'";
 }
 
@@ -29,14 +37,13 @@ function iteration(array $diffNode, string $actualPath)
 {
     $propertyPath = $actualPath === '' ? $diffNode['property'] :
         $actualPath . '.' . $diffNode['property'];
-    $status = $diffNode['status'];
 
-    switch ($status) {
+    switch ($diffNode['status']) {
+        case 'nested':
+            $arrayValue = $diffNode['arrayValue'];
+            return array_map(fn($childNode) => iteration($childNode, $propertyPath), $arrayValue);
+
         case 'equal':
-            $identialValue = $diffNode['identialValue'];
-            if (is_array($identialValue)) {
-                return array_map(fn($childNode) => iteration($childNode, $propertyPath), $identialValue);
-            }
             return '';
 
         case 'updated':
@@ -53,6 +60,6 @@ function iteration(array $diffNode, string $actualPath)
             return "Property '{$propertyPath}' was removed";
 
         default:
-            return "Error: there is no status with the such name.";
+            throw new \Exception("There is no status with the such name.");
     }
 }

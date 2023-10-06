@@ -3,92 +3,86 @@
 namespace Differ\Tests\DifferTest;
 
 use PHPUnit\Framework\TestCase;
+
 use function Differ\Differ\genDiff;
 
 class DifferTest extends TestCase
 {
-    public function extensionProvider()
+    public function stylishFmtFilesProvider()
     {
         return [
-            ['json'],
-            ['yml']
-        ];
-    }
-    public function flatFilesProvider()
-    {
-        return [
-            ['Before1.json', 'After1.json', 'Expected1_json'],
-            ['Before1.yml', 'After1.yml', 'Expected1_yml'],
-            ['Before2.json', 'After2.json', 'Expected2_json'],
-            ['Before2.yml', 'After2.yml', 'Expected2_yml']
+            ['After1.json', 'Before1.json', 'expected/StylishFmt1'],
+            ['After2.yml', 'Before2.yml', 'expected/StylishFmt2'],
+            ['After3.json', 'Before3.json', 'expected/StylishFmt3'],
+            ['After4.yml', 'Before4.yml', 'expected/StylishFmt4'],
+            ['After5.json', 'Before5.json', 'expected/StylishFmt5'],
+            ['After6.yml', 'Before6.yml', 'expected/StylishFmt6'],
+            ['After7.json', 'Before7.json', 'expected/StylishFmt7'],
+            ['After8.yml', 'Before8.yml', 'expected/StylishFmt8']
         ];
     }
 
-    public function getFlatFixturePath(string $fixtureName)
+    public function plainFmtFilesProvider()
     {
-        return __DIR__ . "/fixtures/flat_structure/{$fixtureName}";
+        return [
+            ['After5.json', 'Before5.json', 'expected/PlainFmt5'],
+            ['After6.yml', 'Before6.yml', 'expected/PlainFmt6'],
+            ['After7.json', 'Before7.json', 'expected/PlainFmt7'],
+            ['After8.yml', 'Before8.yml', 'expected/PlainFmt8']
+        ];
     }
 
-    public function getNestedFixturePath(string $fixtureName)
+    public function jsonFmtFilesProvider()
     {
-        return __DIR__ . "/fixtures/nested_structure/{$fixtureName}";
+        return[
+            ['After5.json', 'Before5.json', 'expected/JsonFmt5.json']
+        ];
     }
 
-    public function getNestedExpectedFixturePath(string $fixtureName)
+    public function getFixturePath(string $fixtureName)
     {
-        return __DIR__ . "/fixtures/nested_structure/expected/{$fixtureName}";
-    }
-
-    /**
-     * @dataProvider flatFilesProvider
-     */
-    public function testGenDiffWithFlatStructure($beforeFileName, $afterFileName, $expectedFileName): void
-    {
-        $beforeFilePath = $this->getFlatFixturePath($beforeFileName);
-        $afterFilePath = $this->getFlatFixturePath($afterFileName);
-        $expectedFilePath = $this->getFlatFixturePath($expectedFileName);
-
-        $expected = file_get_contents($expectedFilePath);
-        $actual = genDiff($beforeFilePath, $afterFilePath);
-        $this->assertEquals($expected, $actual);
+        return __DIR__ . "/fixtures/{$fixtureName}";
     }
 
     /**
-     * @dataProvider extensionProvider
+     * @dataProvider stylishFmtFilesProvider
      */
-    public function testGenDiffWithStylishFormat($extension): void
+    public function testGenDiffWithStylishFormat($afterFilePath, $beforeFilePath, $expectedFilePath): void
     {
         $format = "stylish";
-        $expectedFilePath = $this->getNestedExpectedFixturePath("StylishFmt1_{$extension}");
-        $beforeFilePath = $this->getNestedFixturePath("Before1.{$extension}");
-        $afterFilePath = $this->getNestedFixturePath("After1.{$extension}");
+        $expectedFilePath = $this->getFixturePath($expectedFilePath);
+        $beforeFilePath = $this->getFixturePath($beforeFilePath);
+        $afterFilePath = $this->getFixturePath($afterFilePath);
 
-        $actual= genDiff($beforeFilePath, $afterFilePath, $format);
+        $actual = genDiff($beforeFilePath, $afterFilePath, $format);
         $this->assertStringEqualsFile($expectedFilePath, $actual);
     }
 
     /**
-     * @dataProvider extensionProvider
+     * @dataProvider plainFmtFilesProvider
      */
-    public function testGenDiffWithPlainFormat($extension): void
+    public function testGenDiffWithPlainFormat($afterFilePath, $beforeFilePath, $expectedFilePath): void
     {
         $format = 'plain';
-        $expectedFilePath = $this->getNestedExpectedFixturePath("PlainFmt1_{$extension}");
-        $beforeFilePath = $this->getNestedFixturePath("Before1.{$extension}");
-        $afterFilePath = $this->getNestedFixturePath("After1.{$extension}");
+        $expectedFilePath = $this->getFixturePath($expectedFilePath);
+        $beforeFilePath = $this->getFixturePath($beforeFilePath);
+        $afterFilePath = $this->getFixturePath($afterFilePath);
 
-        $actual= genDiff($beforeFilePath, $afterFilePath, $format);
+        $actual = genDiff($beforeFilePath, $afterFilePath, $format);
         $this->assertStringEqualsFile($expectedFilePath, $actual);
     }
 
-    public function testGenDiffWithJsonFormat(): void
+    /**
+     * @dataProvider jsonFmtFilesProvider
+     */
+    public function testGenDiffWithJsonFormat($afterFilePath, $beforeFilePath, $expectedFilePath): void
     {
         $format = 'json';
-        $expectedFilePath = $this->getNestedExpectedFixturePath("JsonFmt1.json");
-        $beforeFilePath = $this->getNestedFixturePath("Before1.json");
-        $afterFilePath = $this->getNestedFixturePath("After1.json");
+        $expectedFilePath = $this->getFixturePath($expectedFilePath);
+        $beforeFilePath = $this->getFixturePath($beforeFilePath);
+        $afterFilePath = $this->getFixturePath($afterFilePath);
 
-        $expected = implode(array_map(fn($line) => ltrim($line), file($expectedFilePath)));
+        $expected = file_get_contents($expectedFilePath);
         $actual = genDiff($beforeFilePath, $afterFilePath, $format);
         $this->assertEquals(json_decode($expected, true), json_decode($actual, true));
     }

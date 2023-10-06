@@ -10,6 +10,31 @@
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/029396f1068d07a15256/test_coverage)](https://codeclimate.com/github/Karamysh/php-project-48/test_coverage)
 
+**Difference Calculator** is a program that determines the difference between two data structures. A similar mechanism is used when outputting tests or when automatically tracking changes in configuration files.
+
+Utility Features:
+
+- Support for various formats: xml and json
+- Generating a report in plain text, stylish and json
+
+### Installation:
+
+```
+$ git
+
+$ cd php-project-48
+
+$ make install
+```
+
+### Usage:
+
+gendiff (-h|--help)
+
+gendiff (-v|--version)
+
+gendiff [--format ]
+
 ### Asciinema
 
 Asciinema with json file of flat structure:
