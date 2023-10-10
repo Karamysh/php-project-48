@@ -13,53 +13,52 @@ function generateDiffTree(array $diffData1, array $diffData2)
 
 function generateDiffNode(string $status, string $property, int $depth, array $values)
 {
-    [$beforeValue, $afterValue] = [$values['beforeValue'], $values['afterValue']];
-
     switch ($status) {
         case 'nested':
             return [
                 'property' => $property,
                 'depth' => $depth,
                 'status' => 'nested',
-                'arrayValue' => iteration($beforeValue, $afterValue, $depth + 1)
+                'arrayValue' => iteration($values['beforeValue'], $values['afterValue'], $depth + 1)
             ];
         case 'equal':
             return [
                 'property' => $property,
                 'depth' => $depth,
                 'status' => 'equal',
-                'identialValue' => $beforeValue
+                'identialValue' => $values['beforeValue']
             ];
         case 'updated':
             return [
                 'property' => $property,
                 'depth' => $depth,
                 'status' => 'updated',
-                'removedValue' => $beforeValue,
-                'addedValue' => $afterValue
+                'removedValue' => $values['beforeValue'],
+                'addedValue' => $values['afterValue']
             ];
         case 'removed':
             return [
                 'property' => $property,
                 'depth' => $depth,
                 'status' => 'removed',
-                'removedValue' => $beforeValue
+                'removedValue' => $values['beforeValue']
             ];
         case 'added':
             return  [
                 'property' => $property,
                 'depth' => $depth,
                 'status' => 'added',
-                'addedValue' => $afterValue
+                'addedValue' => $values['afterValue']
             ];
         default:
             throw new \Exception('No such status.');
     }
 }
 
-function handleElement(array $elements, int $depth)
+function compareElements(array $elements, int $depth)
 {
     [$beforeElement, $afterElement, $mergedKeys] = $elements;
+
     return array_map(function ($property) use ($beforeElement, $afterElement, $depth) {
         $beforeValue = $beforeElement[$property] ?? null;
         $afterValue = $afterElement[$property] ?? null;
@@ -67,17 +66,25 @@ function handleElement(array $elements, int $depth)
 
         if (!array_key_exists($property, $beforeElement)) {
             return generateDiffNode('added', $property, $depth, $values);
-        } elseif (!array_key_exists($property, $afterElement)) {
-            return generateDiffNode('removed', $property, $depth, $values);
-        } elseif (is_array($beforeValue) && is_array($afterValue)) {
-            return generateDiffNode('nested', $property, $depth, $values);
-        } elseif ($beforeValue === $afterValue) {
-            return generateDiffNode('equal', $property, $depth, $values);
-        } elseif ($beforeValue !== $afterValue) {
-            return generateDiffNode('updated', $property, $depth, $values);
-        } else {
-            throw new \Exception('No status found for this values.');
         }
+
+        if (!array_key_exists($property, $afterElement)) {
+            return generateDiffNode('removed', $property, $depth, $values);
+        }
+
+        if (is_array($beforeValue) && is_array($afterValue)) {
+            return generateDiffNode('nested', $property, $depth, $values);
+        }
+
+        if ($beforeValue === $afterValue) {
+            return generateDiffNode('equal', $property, $depth, $values);
+        }
+
+        if ($beforeValue !== $afterValue) {
+            return generateDiffNode('updated', $property, $depth, $values);
+        }
+
+        throw new \Exception('No status found for these values.');
     }, $mergedKeys);
 }
 
@@ -90,5 +97,5 @@ function iteration(array $beforeElement, array $afterElement, int $depth = 1)
         $afterElement,
         $sortedMergedDataKeys
     ];
-    return handleElement($elements, $depth);
+    return compareElements($elements, $depth);
 }
